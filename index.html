@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DCE — Dorsha Consciousness Engine</title>
+<title>DCE(1) — Dorsha Consciousness Engine</title>
 <meta name="description" content="La conciencia de tu agente como servicio MCP: memoria selectiva, judge dual, loop supervisado. DeepSeek by default.">
-<meta property="og:title" content="DCE — Dorsha Consciousness Engine">
+<meta property="og:title" content="DCE(1) — Dorsha Consciousness Engine">
 <meta property="og:description" content="Memoria, juicio y loop para tu agente, como servicio MCP. DeepSeek by default.">
 <meta property="og:url" content="https://dce.devcristobalvc.com/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070b07'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%2333ff66' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23fafaf9'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%23e5484d' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -21,41 +21,60 @@
   </div>
   <nav>
     <a href="index.html" class="active">home</a>
-      <a href="connect.html">connect</a>
-      <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+    <a href="connect.html">connect</a>
+    <a href="#resources">resources</a>
+    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
   </nav>
   <div class="status"><span class="dot-on"></span> mcp online</div>
   <details class="menu">
     <summary>☰</summary>
     <div class="drop">
-      <a href="index.html" class="active">home</a>
+      <a href="index.html">home</a>
       <a href="connect.html">connect</a>
+      <a href="#resources">resources</a>
       <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
     </div>
   </details>
 </header>
 
 <main class="wrap">
-  <section class="hero" style="border-top:none">
-    <div class="prompt"><span class="cmd">$</span> dorsha-ce --connect<span class="cursor"></span></div>
-    <h1>Tu agente recuerda,<br>juzga y sigue <span class="hl">solo</span>.</h1>
-    <p>Memoria selectiva vía MCP. DeepSeek nativo. Sin GPT, sin humo.</p>
-  </section>
-
-  <section id="install">
-    <h2>Installation</h2>
-    <div class="term-box">
-      <div class="l"><span class="p">$</span> pip install dorsha-consciousness-engine</div>
-      <div class="l"><span class="cmt"># o con npm: npx @devcristobalvc/consciousness-engine</span></div>
-      <div class="l"><span class="ok">ok — motor instalado</span></div>
-      <div class="l"><span class="p">$</span> ce mcp</div>
-      <div class="l"><span class="cmt"># servidor MCP: Claude Code y Hermes lo detectan al instante</span></div>
-      <div class="l"><span class="ok">dorsha-ce on</span></div>
+  <!-- hero estilo man page: DCE(1) -->
+  <section class="hero">
+    <div class="man-head">
+      <span>DCE(1)</span><span>DORSHA CONSCIOUSNESS ENGINE</span><span>DCE(1)</span>
+    </div>
+    <div class="man-name">
+      <div class="prompt"><span class="cmd">$</span> dorsha-ce --connect<span class="cursor"></span></div>
+      <h1>Tu agente recuerda,<br>juzga y sigue <span class="hl">solo</span>.</h1>
+    </div>
+    <div class="man-desc">
+      <span class="man-k">DESCRIPCIÓN</span>
+      <p>Memoria selectiva vía MCP. DeepSeek nativo. Sin GPT, sin humo.</p>
     </div>
   </section>
 
+  <!-- installation como ticket/recibo -->
+  <section id="install">
+    <h2>Installation(1)</h2>
+    <div class="ticket">
+      <div class="tick-top">
+        <span>TICKET DE INSTALACIÓN</span><span>dce · v0.1.0</span>
+      </div>
+      <div class="term-box">
+        <div class="l"><span class="p">$</span> pip install dorsha-consciousness-engine</div>
+        <div class="l"><span class="cmt"># o con npm: npx @devcristobalvc/consciousness-engine</span></div>
+        <div class="l"><span class="ok">ok — motor instalado</span></div>
+        <div class="l"><span class="p">$</span> ce mcp</div>
+        <div class="l"><span class="cmt"># servidor MCP: Claude Code y Hermes lo detectan al instante</span></div>
+        <div class="l"><span class="ok">dorsha-ce on</span></div>
+      </div>
+      <div class="tick-bot"><span>— corte aquí —</span><span>sin reembolsos</span></div>
+    </div>
+  </section>
+
+  <!-- diagrama con numeración de figura -->
   <section id="diagram">
-    <h2>Diagrama</h2>
+    <h2>Fig. 01 — arquitectura</h2>
     <div class="diagram">
       <div class="mermaid">
 flowchart LR
@@ -92,6 +111,49 @@ flowchart LR
       </div>
       <div class="hint">gestos: pellizca zoom · arrastra mover · doble tap reset</div>
     </div>
+    <div class="fig-cap">Fig. 01 — el agente pregunta a la memoria (nunca al revés); el loop lo mantiene en la tarea; el humano decide solo cuando hay una limitación real.</div>
+  </section>
+
+  <!-- resources estilo man page -->
+  <section id="resources">
+    <h2>Resources(1)</h2>
+    <div class="man">
+      <div class="man-sec">
+        <div class="man-k">EXAMPLES</div>
+        <pre><span class="p" style="color:var(--red)">$</span> ce memory_search "decision sobre el deploy"
+<span class="c">(session:abc msg:12 @ 2026-07-22) assistant: "usamos push a main para desplegar"</span>
+<span class="c">(__memory__) "Decision: el deploy usa push a main"</span>
+
+<span class="p" style="color:var(--red)">$</span> ce judge "el deploy fallo otra vez"
+<span class="c">action: advisor | reason: uncertain choice, consulting advisor</span></pre>
+      </div>
+      <div class="man-sec">
+        <div class="man-k">ENVIRONMENT</div>
+        <dl>
+          <dt>DEEPSEEK_API_KEY</dt><dd>key para advisor y judge (default api.deepseek.com)</dd>
+          <dt>CE_MAX_ITERATIONS</dt><dd>límite del loop supervisado por tarea</dd>
+          <dt>CE_INDEX_TOOLS</dt><dd>false por defecto — el RAG ignora outputs de tools</dd>
+        </dl>
+      </div>
+      <div class="man-sec">
+        <div class="man-k">FILES</div>
+        <dl>
+          <dt>~/.ce/config.yaml</dt><dd>configuración local del motor</dd>
+          <dt>~/.ce/vectors/</dt><dd>índice RAG (sqlite-vec + embeddings locales)</dd>
+          <dt>TODO.md</dt><dd>contrato de trabajo que el loop lee y escribe</dd>
+        </dl>
+      </div>
+      <div class="man-sec">
+        <div class="man-k">SEE ALSO</div>
+        <p class="see">
+          <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">motor</a> ·
+          <a href="https://github.com/DevCristobalvc/web-dorsha-consciousness-engine" target="_blank">web</a> ·
+          <a href="connect.html">connect</a> ·
+          <a href="https://api-docs.deepseek.com" target="_blank">DeepSeek API</a> ·
+          <a href="https://modelcontextprotocol.io" target="_blank">MCP spec</a>
+        </p>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -105,6 +167,7 @@ flowchart LR
       <h4>producto</h4>
       <a href="index.html">home</a>
       <a href="connect.html">connect</a>
+      <a href="#resources">resources</a>
     </div>
     <div class="f-col">
       <h4>codigo</h4>
@@ -119,8 +182,8 @@ flowchart LR
     </div>
   </div>
   <div class="f-bottom">
-    <span>&copy; 2026 DevCristobalvc</span>
-    <span>dce.devcristobalvc.com · powered by DeepSeek</span>
+    <span>--- fin del manual ---</span>
+    <span>&copy; 2026 DevCristobalvc · dce.devcristobalvc.com</span>
   </div>
 </footer>
 
