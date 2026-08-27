@@ -8,223 +8,101 @@
 <meta property="og:title" content="DCE — Dorsha Consciousness Engine">
 <meta property="og:description" content="Memoria, juicio y loop para tu agente, como servicio MCP. DeepSeek by default.">
 <meta property="og:url" content="https://dce.devcristobalvc.com/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23eaf2ff'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%232563eb' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
-<style>
-  :root {
-    --bg:#f3f7ff; --text:#0f172a; --dim:#5b6b84; --accent:#2563eb; --accent-soft:#3b82f6;
-    --glass:rgba(255,255,255,.55); --glass-strong:rgba(255,255,255,.72);
-    --border:rgba(255,255,255,.75); --shadow:0 10px 36px -12px rgba(37,99,235,.14);
-    --warn:#f59e0b;
-  }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; }
-  body { background:var(--bg); color:var(--text); font:15px/1.65 "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-         -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-  /* blobs liquid de fondo */
-  .blob { position:fixed; border-radius:50%; filter:blur(90px); opacity:.45; z-index:-1; pointer-events:none; }
-  .blob.b1 { width:480px; height:480px; background:#a7c8ff; top:-140px; left:-120px; animation:float1 22s ease-in-out infinite; }
-  .blob.b2 { width:420px; height:420px; background:#cfe6ff; bottom:-120px; right:-100px; animation:float2 26s ease-in-out infinite; }
-  .blob.b3 { width:300px; height:300px; background:#d9e2ff; top:40%; left:55%; animation:float1 30s ease-in-out infinite reverse; }
-  @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,30px) scale(1.08)} }
-  @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,-40px) scale(1.1)} }
-
-  .wrap { max-width:1000px; margin:0 auto; padding:0 clamp(16px, 4vw, 32px); }
-  nav { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 0;
-        margin-bottom:clamp(24px, 5vw, 48px); }
-  nav .logo { color:var(--accent); font-weight:700; }
-  nav .logo span { color:var(--dim); font-weight:400; }
-  nav .links { display:flex; gap:4px; flex-wrap:wrap; }
-  nav a { color:var(--dim); text-decoration:none; font-size:13px; padding:7px 13px; border-radius:10px;
-          transition:color .15s, background .15s; }
-  nav a:hover { color:var(--accent); background:rgba(37,99,235,.08); }
-  details.menu { display:none; }
-
-  .hero { padding:clamp(12px, 3vw, 32px) 0 clamp(20px, 4vw, 40px); text-align:center; }
-  .term { display:inline-block; background:var(--glass); border:1px solid var(--border); backdrop-filter:blur(14px) saturate(1.4);
-          -webkit-backdrop-filter:blur(14px) saturate(1.4); border-radius:14px; padding:12px 22px; font-size:13px;
-          margin-bottom:clamp(18px, 3.5vw, 28px); box-shadow:var(--shadow); }
-  .term .dots span { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; background:#cbd5e1; }
-  .term .dots span:nth-child(1){background:#f87171} .term .dots span:nth-child(2){background:#fbbf24}
-  .term .dots span:nth-child(3){background:#34d399}
-  .term .dots { margin-bottom:8px; text-align:left; }
-  .term .cmd { color:var(--accent); }
-  .term .sub { color:var(--dim); }
-  h1 { font-size:clamp(24px, 5vw, 38px); line-height:1.2; margin-bottom:14px; letter-spacing:-.02em; font-weight:700; }
-  h1 .hl { color:var(--accent); }
-  .hero p { color:var(--dim); font-size:clamp(13.5px, 2vw, 15.5px); max-width:540px; margin:0 auto; }
-  .cta { display:flex; gap:12px; margin-top:24px; justify-content:center; flex-wrap:wrap; }
-  .cta a { text-decoration:none; padding:11px 24px; border-radius:12px; font-size:14px; transition:transform .15s, box-shadow .15s; }
-  .cta a:hover { transform:translateY(-1px); }
-  .cta .primary { background:var(--accent); color:#fff; font-weight:700; box-shadow:0 10px 26px -10px rgba(37,99,235,.55); }
-  .cta .primary:hover { background:var(--accent-soft); }
-  .cta .ghost { background:var(--glass); border:1px solid var(--border); color:var(--text); backdrop-filter:blur(10px); }
-  .cta .ghost:hover { border-color:var(--accent); color:var(--accent); }
-
-  section { padding:clamp(20px, 4vw, 40px) 0; }
-  section h2 { font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:.12em; margin-bottom:clamp(14px, 2.5vw, 22px); }
-  .glass { background:var(--glass); border:1px solid var(--border); backdrop-filter:blur(16px) saturate(1.5);
-           -webkit-backdrop-filter:blur(16px) saturate(1.5); border-radius:18px; box-shadow:var(--shadow); }
-  .diagram { padding:clamp(12px, 2vw, 22px); overflow:hidden; text-align:center; touch-action:none; cursor:grab; }
-  .diagram:active { cursor:grabbing; }
-  .diagram .mermaid { display:flex; justify-content:center; touch-action:none; }
-  .diagram .mermaid svg { max-width:100% !important; height:auto !important; transition:transform .1s ease-out; }
-  .hint { font-size:11px; color:var(--dim); margin-top:10px; text-align:center; }
-
-  .steps { max-width:680px; margin:0 auto; }
-  .step { display:flex; gap:16px; margin-bottom:14px; padding:16px 18px; }
-  .step::before { counter-increment:step; content:counter(step); flex:0 0 32px; height:32px;
-                background:rgba(37,99,235,.1); color:var(--accent); border-radius:50%;
-                display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
-  .steps { counter-reset:step; }
-  .step h3 { font-size:14px; margin-bottom:4px; }
-  .step p { color:var(--dim); font-size:12.5px; margin-bottom:8px; }
-  pre { background:rgba(255,255,255,.7); border:1px solid var(--border); border-radius:12px; padding:12px 14px;
-        font-size:12px; overflow-x:auto; color:var(--text); box-shadow:inset 0 1px 2px rgba(15,23,42,.04); }
-  pre .c { color:var(--dim); }
-  pre .k { color:var(--accent); }
-  pre .s { color:#1d4ed8; }
-  .tools { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:12px; }
-  .tool { padding:16px 18px; transition:border-color .15s, transform .15s; }
-  .tool:hover { border-color:rgba(37,99,235,.4); transform:translateY(-1px); }
-  .tool code { color:var(--accent); font-size:12.5px; font-weight:700; }
-  .tool p { color:var(--dim); font-size:12px; margin-top:5px; }
-
-  footer { padding:clamp(18px, 3.5vw, 28px) 0 36px; color:var(--dim); font-size:12px;
-           display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-  footer a { color:var(--dim); text-decoration:none; transition:color .15s; }
-  footer a:hover { color:var(--accent); }
-
-  @media (max-width:640px) {
-    nav .links { display:none; }
-    details.menu { display:block; position:relative; }
-    details.menu summary { list-style:none; cursor:pointer; color:var(--accent); font-size:20px; padding:4px 10px;
-                           background:var(--glass); border:1px solid var(--border); border-radius:10px; backdrop-filter:blur(10px); }
-    details.menu .drop { position:absolute; right:0; top:38px; background:rgba(255,255,255,.9); border:1px solid var(--border);
-                         border-radius:14px; padding:8px; display:flex; flex-direction:column; min-width:170px; z-index:10;
-                         backdrop-filter:blur(16px); box-shadow:var(--shadow); }
-    details.menu .drop a { padding:9px 12px; border-radius:8px; }
-    .step { flex-direction:column; gap:8px; }
-    .step::before { flex:0 0 auto; }
-  }
-</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070b07'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%2333ff66' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-
-<nav class="wrap">
-  <div class="logo">dce <span>· dorsha consciousness engine</span></div>
-  <div class="links">
-    <a href="#como">como funciona</a>
-    <a href="#connect">conectar</a>
-    <a href="#tools">tools</a>
-    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+<header class="wrap">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <div class="title">dce <b>· dorsha consciousness engine</b></div>
   </div>
+  <nav>
+    <a href="index.html" class="active">home</a>
+    <a href="connect.html">connect</a>
+    <a href="tools.html">tools</a>
+    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+  </nav>
   <details class="menu">
     <summary>☰</summary>
     <div class="drop">
-      <a href="#como">como funciona</a>
-      <a href="#connect">conectar</a>
-      <a href="#tools">tools</a>
+      <a href="index.html">home</a>
+      <a href="connect.html">connect</a>
+      <a href="tools.html">tools</a>
       <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
     </div>
   </details>
-</nav>
-
-<header class="hero wrap">
-  <div class="term">
-    <div class="dots"><span></span><span></span><span></span></div>
-    <div><span class="cmd">$</span> dorsha-ce --connect <span class="sub"># memoria, juicio y loop para tu agente</span></div>
-  </div>
-  <h1>La conciencia de tu agente,<br>como servicio <span class="hl">MCP</span>.</h1>
-  <p>Memoria selectiva que se consulta como un tool. Judge dual. Loop supervisado. DeepSeek by default.</p>
-  <div class="cta">
-    <a class="primary" href="#connect">Conectar</a>
-    <a class="ghost" href="#como">Como funciona</a>
-  </div>
 </header>
 
-<section id="como" class="wrap">
-  <h2>Como funciona</h2>
-  <div class="glass diagram">
-    <div class="mermaid">
+<main class="wrap">
+  <section class="hero" style="border-top:none">
+    <div class="prompt"><span class="cmd">$</span> dorsha-ce --connect<span class="cursor"></span></div>
+    <h1>La conciencia de tu agente,<br>como servicio <span class="hl">MCP</span>.</h1>
+    <p>Memoria selectiva. Judge dual. Loop supervisado. DeepSeek.</p>
+    <div class="cta">
+      <a class="btn" href="#install">instalar</a>
+      <a class="btn ghost" href="#diagram">diagrama</a>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>Installation</h2>
+    <div class="term-box">
+      <div class="l"><span class="p">$</span> pip install dorsha-consciousness-engine <span class="cmt"># o npx @devcristobalvc/consciousness-engine</span></div>
+      <div class="l"><span class="ok">ok — ce listo</span></div>
+      <div class="l"><span class="p">$</span> ce mcp <span class="cmt"># servidor MCP stdio</span></div>
+      <div class="l"><span class="ok">dorsha-ce on</span></div>
+    </div>
+    <div class="cmd-row">
+      <code>ce memory_search "..."</code>
+      <code>ce memory_save "..."</code>
+      <code>ce judge "turno"</code>
+      <code>ce status</code>
+    </div>
+  </section>
+
+  <section id="diagram">
+    <h2>Diagrama</h2>
+    <div class="diagram">
+      <div class="mermaid">
 flowchart LR
-  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%232563eb%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%232563eb%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='32'/><br/><span style='color:%232563eb'>User</span>"]
+  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%2333ff66%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%2333ff66%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%2333ff66'>User</span>"]
   U -->|"prompt"| W
   subgraph DCE["Dorsha Consciousness Engine"]
-    subgraph LP["LOOP SUPERVISADO · N iteraciones"]
+    subgraph LP["LOOP SUPERVISADO"]
       direction TB
       W["Worker agent<br/><span style='font-size:11px'>Claude Code · Hermes</span>"]
-      L["Loop driver<br/><span style='font-size:11px'>lee el turno · juzga · inyecta</span>"]
+      L["Loop driver"]
       W -->|"MCP tools"| S["ce_memory_search<br/>ce_memory_save · ce_judge"]
-      S --> J["Judge dual<br/><span style='font-size:11px'>heuristica + LLM as judge</span>"]
+      S --> J["Judge dual"]
       J --> L
-      L -.->|"bucle: inyeccion<br/>como usuario"| W
+      L -.->|"bucle inyeccion"| W
     end
-    S --> R["Recall RAG<br/><span style='font-size:11px'>prompts + respuestas + curada</span>"]
-    J --> A["Advisor DeepSeek<br/><span style='font-size:11px'>sesion nueva · contexto completo</span>"]
-    R --> M[("Memoria<br/><span style='font-size:11px'>indice + curada</span>")]
-    L --> T[("TODO.md<br/><span style='font-size:11px'>contrato</span>")]
+    S --> R["Recall RAG"]
+    J --> A["Advisor DeepSeek"]
+    R --> M[("Memoria")]
+    L --> T[("TODO.md")]
   end
   A -.-> D["DeepSeek API"]
-  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%2364748b%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%2364748b%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='32'/><br/><span style='color:%2364748b'>Human as judge</span><br/><span style='font-size:11px'>solo limitaciones reales</span>"]
+  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%23ffb000%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%23ffb000%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%23ffb000'>Human as judge</span>"]
   H -->|"decision"| W
-  J -.->|"bucle retry<br/>attempts < max"| W
+  J -.->|"retry"| W
   A -.->|"recomendacion"| W
   R -.->|"contexto"| J
   R -.->|"evidencia"| A
   W -.->|"ce_memory_save"| M
 
-  classDef loopBox fill:#fffdf5,stroke:#f59e0b,stroke-width:1.5px,color:#0f172a
+  classDef loopBox fill:#0a1008,stroke:#ffb000,stroke-width:1.5px,color:#33ff66
   class LP loopBox
-  classDef loopNode fill:#fff7e6,stroke:#f59e0b,stroke-width:2px,color:#0f172a
+  classDef loopNode fill:#141c10,stroke:#ffb000,stroke-width:2px,color:#33ff66
   class L loopNode
-    </div>
-    <div class="hint">gestos: pellizca para zoom · arrastra para mover · doble tap para reset</div>
-  </div>
-</section>
-
-<section id="connect" class="wrap">
-  <h2>Conectar</h2>
-  <div class="steps">
-    <div class="step glass">
-      <div style="flex:1">
-        <h3>Pide tu token</h3>
-        <p>Endpoint: <code>dce.devcristobalvc.com</code> · el token se entrega por canal privado.</p>
       </div>
+      <div class="hint">gestos: pellizca zoom · arrastra mover · doble tap reset</div>
     </div>
-    <div class="step glass">
-      <div style="flex:1">
-        <h3>Registra el server</h3>
-<pre><span class="c">// .mcp.json</span>
-{
-  <span class="k">"mcpServers"</span>: {
-    <span class="k">"dorsha-ce"</span>: {
-      <span class="k">"type"</span>: <span class="s">"http"</span>,
-      <span class="k">"url"</span>: <span class="s">"https://dce.devcristobalvc.com"</span>,
-      <span class="k">"headers"</span>: { <span class="k">"Authorization"</span>: <span class="s">"Bearer TU_TOKEN"</span> }
-    }
-  }
-}</pre>
-      </div>
-    </div>
-    <div class="step glass">
-      <div style="flex:1">
-        <h3>Llama la memoria como un search</h3>
-        <p>El agente decide cuando recordar — sin contexto inyectado a la fuerza.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="tools" class="wrap">
-  <h2>Tools</h2>
-  <div class="tools">
-    <div class="tool glass"><code>ce_memory_search</code><p>RAG selectivo con citas exactas.</p></div>
-    <div class="tool glass"><code>ce_memory_save</code><p>Guarda decisiones y lecciones.</p></div>
-    <div class="tool glass"><code>ce_judge</code><p>Clasifica y decide: retry / advisor / escalate.</p></div>
-    <div class="tool glass"><code>ce_status</code><p>Estado del motor.</p></div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer class="wrap">
   <div>dce · devcristobalvc.com</div>
@@ -243,39 +121,32 @@ flowchart LR
     theme: "base",
     themeVariables: {
       background: "transparent",
-      primaryColor: "rgba(255,255,255,.6)",
-      primaryBorderColor: "#93c5fd",
-      primaryTextColor: "#0f172a",
-      secondaryColor: "rgba(241,245,249,.8)",
-      secondaryBorderColor: "#cbd5e1",
-      tertiaryColor: "rgba(248,250,252,.8)",
-      lineColor: "#3b82f6",
-      textColor: "#0f172a",
+      primaryColor: "#0a100a",
+      primaryBorderColor: "#2e6b3e",
+      primaryTextColor: "#33ff66",
+      secondaryColor: "#0a100a",
+      secondaryBorderColor: "#1c3a24",
+      tertiaryColor: "#0a100a",
+      lineColor: "#33ff66",
+      textColor: "#33ff66",
       fontSize: "12px"
     },
     flowchart: { curve: "basis", padding: 8, nodeSpacing: 24, rankSpacing: 38 }
   });
 
-  // gestos: todo por gestos, sin botones
-  // mobile: pellizco = zoom del diagrama · arrastrar = mover · doble tap = reset
-  // desktop: ctrl+rueda = zoom · arrastrar = mover · doble click = reset
+  // gestos del diagrama (sin botones)
   document.addEventListener("DOMContentLoaded", () => {
-    const box = document.querySelector("#como .diagram");
-    const svg = () => document.querySelector("#como .mermaid svg");
+    const box = document.querySelector("#diagram .diagram");
+    if (!box) return;
+    const svg = () => document.querySelector("#diagram .mermaid svg");
     let s = 1, tx = 0, ty = 0;
     const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-    const apply = () => {
-      const el = svg();
-      if (!el) return;
+    const apply = () => { const el = svg(); if (!el) return;
       el.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + s + ")";
-      el.style.transformOrigin = "center center";
-    };
+      el.style.transformOrigin = "center center"; };
     const reset = () => { s = 1; tx = 0; ty = 0; apply(); };
-
-    // ---- touch (mobile): pinch + pan + doble tap ----
     const touches = new Map();
     let startDist = 0, startScale = 1, lastTap = 0;
-
     box.addEventListener("touchstart", (e) => {
       e.preventDefault();
       for (const t of e.changedTouches) touches.set(t.identifier, { x: t.clientX, y: t.clientY });
@@ -287,7 +158,6 @@ flowchart LR
       const now = Date.now();
       if (now - lastTap < 300) { reset(); lastTap = 0; } else { lastTap = now; }
     }, { passive: false });
-
     box.addEventListener("touchmove", (e) => {
       e.preventDefault();
       if (touches.size >= 2) {
@@ -307,12 +177,9 @@ flowchart LR
         if (s > 1) apply();
       }
     }, { passive: false });
-
     const endTouch = (e) => { for (const t of e.changedTouches) touches.delete(t.identifier); };
     box.addEventListener("touchend", endTouch);
     box.addEventListener("touchcancel", endTouch);
-
-    // ---- mouse (desktop): drag = pan · ctrl+rueda = zoom · doble click = reset ----
     let dragging = false, mx = 0, my = 0;
     box.addEventListener("mousedown", (e) => { dragging = true; mx = e.clientX; my = e.clientY; e.preventDefault(); });
     window.addEventListener("mousemove", (e) => {
@@ -324,11 +191,8 @@ flowchart LR
     window.addEventListener("mouseup", () => { dragging = false; });
     box.addEventListener("dblclick", reset);
     box.addEventListener("wheel", (e) => {
-      if (e.ctrlKey) {
-        e.preventDefault();
-        s = clamp(s * (e.deltaY < 0 ? 1.1 : 0.9), 0.5, 3);
-        apply();
-      }
+      if (e.ctrlKey) { e.preventDefault();
+        s = clamp(s * (e.deltaY < 0 ? 1.1 : 0.9), 0.5, 3); apply(); }
     }, { passive: false });
   });
 </script>

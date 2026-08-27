@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>connect — DCE</title>
+<meta name="description" content="Conecta tu agente al Dorsha Consciousness Engine (MCP): token, .mcp.json, 3 pasos.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070b07'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%2333ff66' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="wrap">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <div class="title">dce <b>· dorsha consciousness engine</b></div>
+  </div>
+  <nav>
+    <a href="index.html">home</a>
+    <a href="connect.html" class="active">connect</a>
+    <a href="tools.html">tools</a>
+    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+  </nav>
+  <details class="menu">
+    <summary>☰</summary>
+    <div class="drop">
+      <a href="index.html">home</a>
+      <a href="connect.html">connect</a>
+      <a href="tools.html">tools</a>
+      <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+    </div>
+  </details>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="border-top:none">
+    <h1 style="font-size:clamp(28px,5.5vw,46px)">connect</h1>
+    <p>3 pasos y tu agente tiene memoria, juicio y loop.</p>
+  </section>
+
+  <section id="steps">
+    <h2>Pasos</h2>
+    <div class="steps">
+      <div class="step">
+        <div style="flex:1">
+          <h3>Pide tu token</h3>
+          <p>Endpoint <code>dce.devcristobalvc.com</code> · token por canal privado (Telegram / email).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div style="flex:1">
+          <h3>Registra el server</h3>
+          <p>Claude Code — <code>.mcp.json</code> en la raiz del proyecto:</p>
+<pre><span class="c">// .mcp.json</span>
+{
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"dorsha-ce"</span>: {
+      <span class="k">"type"</span>: <span class="s">"http"</span>,
+      <span class="k">"url"</span>: <span class="s">"https://dce.devcristobalvc.com"</span>,
+      <span class="k">"headers"</span>: { <span class="k">"Authorization"</span>: <span class="s">"Bearer TU_TOKEN"</span> }
+    }
+  }
+}</pre>
+        </div>
+      </div>
+      <div class="step">
+        <div style="flex:1">
+          <h3>Usa la memoria como un search</h3>
+          <p>El agente llama los tools cuando los necesita — sin contexto inyectado a la fuerza.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="local">
+    <h2>Modo local (open source)</h2>
+    <p style="color:var(--dim);margin-bottom:10px">Sin token ni subdominio — corre el motor tu mismo:</p>
+<pre><span class="p" style="color:var(--text)">$</span> pip install dorsha-consciousness-engine
+<span class="p" style="color:var(--text)">$</span> ce mcp                    <span class="c"># stdio (Claude Code / Hermes)</span>
+<span class="p" style="color:var(--text)">$</span> ce panel                   <span class="c"># panel de configuracion local</span></pre>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div>dce · devcristobalvc.com</div>
+  <div>
+    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">motor</a> ·
+    <a href="https://github.com/DevCristobalvc/web-dorsha-consciousness-engine" target="_blank">web</a> ·
+    powered by DeepSeek
+  </div>
+</footer>
+</body>
+</html>
