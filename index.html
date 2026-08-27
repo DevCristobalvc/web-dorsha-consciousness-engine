@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://dce.devcristobalvc.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070b07'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='18' fill='%2333ff66' text-anchor='middle'%3E%24%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -68,7 +68,7 @@
     <div class="diagram">
       <div class="mermaid">
 flowchart LR
-  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%2333ff66%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%2333ff66%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%2333ff66'>User</span>"]
+  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%23e5484d%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%23e5484d%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%23e5484d'>User</span>"]
   U -->|"prompt"| W
   subgraph DCE["Dorsha Consciousness Engine"]
     subgraph LP["LOOP SUPERVISADO"]
@@ -86,7 +86,7 @@ flowchart LR
     L --> T[("TODO.md")]
   end
   A -.-> D["DeepSeek API"]
-  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%23ffb000%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%23ffb000%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%23ffb000'>Human as judge</span>"]
+  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%2371717a%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%2371717a%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='30'/><br/><span style='color:%2371717a'>Human as judge</span>"]
   H -->|"decision"| W
   J -.->|"retry"| W
   A -.->|"recomendacion"| W
@@ -94,9 +94,9 @@ flowchart LR
   R -.->|"evidencia"| A
   W -.->|"ce_memory_save"| M
 
-  classDef loopBox fill:#0a1008,stroke:#ffb000,stroke-width:1.5px,color:#33ff66
+  classDef loopBox fill:#fff5f5,stroke:#e5484d,stroke-width:1.5px,color:#18181b
   class LP loopBox
-  classDef loopNode fill:#141c10,stroke:#ffb000,stroke-width:2px,color:#33ff66
+  classDef loopNode fill:#fdecec,stroke:#e5484d,stroke-width:2px,color:#18181b
   class L loopNode
       </div>
       <div class="hint">gestos: pellizca zoom · arrastra mover · doble tap reset</div>
@@ -121,14 +121,14 @@ flowchart LR
     theme: "base",
     themeVariables: {
       background: "transparent",
-      primaryColor: "#0a100a",
-      primaryBorderColor: "#2e6b3e",
-      primaryTextColor: "#33ff66",
-      secondaryColor: "#0a100a",
-      secondaryBorderColor: "#1c3a24",
-      tertiaryColor: "#0a100a",
-      lineColor: "#33ff66",
-      textColor: "#33ff66",
+      primaryColor: "#ffffff",
+      primaryBorderColor: "#f1b7b9",
+      primaryTextColor: "#18181b",
+      secondaryColor: "#fafaf9",
+      secondaryBorderColor: "#e7e5e4",
+      tertiaryColor: "#fafaf9",
+      lineColor: "#e5484d",
+      textColor: "#18181b",
       fontSize: "12px"
     },
     flowchart: { curve: "basis", padding: 8, nodeSpacing: 24, rankSpacing: 38 }
