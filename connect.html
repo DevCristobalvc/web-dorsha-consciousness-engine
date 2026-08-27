@@ -12,20 +12,21 @@
 </head>
 <body>
 <header class="wrap">
-  <div style="display:flex;align-items:center;gap:10px">
+  <div class="brand">
     <div class="dots"><span></span><span></span><span></span></div>
-    <div class="title">dce <b>· dorsha consciousness engine</b></div>
+    <div class="title"><b>dce</b> <span class="path">~/dce</span></div>
   </div>
   <nav>
     <a href="index.html">home</a>
-    <a href="connect.html" class="active">connect</a>
-    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
+      <a href="connect.html" class="active">connect</a>
+      <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
   </nav>
+  <div class="status"><span class="dot-on"></span> mcp online</div>
   <details class="menu">
     <summary>☰</summary>
     <div class="drop">
       <a href="index.html">home</a>
-      <a href="connect.html">connect</a>
+      <a href="connect.html" class="active">connect</a>
       <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
     </div>
   </details>
@@ -81,11 +82,31 @@
 </main>
 
 <footer class="wrap">
-  <div>dce · devcristobalvc.com</div>
-  <div>
-    <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">motor</a> ·
-    <a href="https://github.com/DevCristobalvc/web-dorsha-consciousness-engine" target="_blank">web</a> ·
-    powered by DeepSeek
+  <div class="f-grid">
+    <div class="f-brand">
+      <div class="f-logo">dce</div>
+      <p>Memoria, juicio y loop para tu agente. DeepSeek nativo.</p>
+    </div>
+    <div class="f-col">
+      <h4>producto</h4>
+      <a href="index.html">home</a>
+      <a href="connect.html">connect</a>
+    </div>
+    <div class="f-col">
+      <h4>codigo</h4>
+      <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">motor</a>
+      <a href="https://github.com/DevCristobalvc/web-dorsha-consciousness-engine" target="_blank">web</a>
+    </div>
+    <div class="f-col">
+      <h4>stack</h4>
+      <span>DeepSeek</span>
+      <span>MCP</span>
+      <span>Python</span>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>&copy; 2026 DevCristobalvc</span>
+    <span>dce.devcristobalvc.com · powered by DeepSeek</span>
   </div>
 </footer>
 </body>

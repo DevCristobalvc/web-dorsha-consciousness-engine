@@ -11,20 +11,28 @@ body { background:var(--bg); color:var(--text); font-family:'JetBrains Mono', ui
 
 .wrap { max-width:1000px; margin:0 auto; padding:0 clamp(14px, 3.5vw, 28px); }
 
-/* header estilo barra de terminal */
-header { border:1px solid var(--line); border-bottom:none; background:var(--panel);
-         display:flex; justify-content:space-between; align-items:center; gap:10px;
+/* header estilo barra de terminal — sticky glass */
+header { position:sticky; top:0; z-index:100; border:1px solid var(--line); background:rgba(255,255,255,.86);
+         backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+         display:flex; justify-content:space-between; align-items:center; gap:12px;
          padding:10px 16px; margin-top:clamp(14px,3vw,28px); flex-wrap:wrap; }
+header .brand { display:flex; align-items:center; gap:10px; min-width:0; }
 header .dots span { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; }
 header .dots span:nth-child(1){background:#f87171} header .dots span:nth-child(2){background:#fbbf24}
 header .dots span:nth-child(3){background:#34d399}
-header .title { color:var(--dim); font-size:13.5px; letter-spacing:.04em; }
-header .title b { color:var(--text); }
+header .title { color:var(--dim); font-size:13.5px; letter-spacing:.04em; white-space:nowrap; }
+header .title b { color:var(--red); }
+header .title .path { color:var(--dim); }
 header nav { display:flex; gap:2px; flex-wrap:wrap; }
 header nav a { color:var(--dim); text-decoration:none; padding:5px 11px; font-size:13.5px;
                border:1px solid transparent; transition:color .12s, border-color .12s, background .12s; }
 header nav a:hover { color:var(--red); border-color:var(--line); }
 header nav a.active { color:var(--red); border-color:var(--red-soft); background:var(--red-soft); }
+header .status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--dim);
+                 border:1px solid var(--line); padding:4px 10px; white-space:nowrap; }
+header .status .dot-on { width:8px; height:8px; border-radius:50%; background:#34d399;
+                         box-shadow:0 0 0 0 rgba(52,211,153,.5); animation:pulse 2s infinite; }
+@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(52,211,153,.5)} 70%{box-shadow:0 0 0 6px rgba(52,211,153,0)} 100%{box-shadow:0 0 0 0 rgba(52,211,153,0)} }
 details.menu { display:none; }
 
 main { border:1px solid var(--line); border-top:none; background:var(--panel);
@@ -92,11 +100,24 @@ pre .c { color:var(--dim); }
 pre .k { color:var(--red); }
 pre .s { color:var(--amber); }
 
-footer { border:1px solid var(--line); border-top:none; background:var(--panel);
-         padding:14px 16px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+footer { border:1px solid var(--line); background:var(--panel); padding:clamp(18px,3.5vw,28px) 16px 14px;
          font-size:13px; color:var(--dim); }
+.f-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:24px; padding-bottom:18px; }
+.f-brand .f-logo { color:var(--red); font-weight:700; font-size:16px; margin-bottom:4px; }
+.f-brand p { font-size:12.5px; max-width:220px; }
+.f-col h4 { font-size:11px; text-transform:uppercase; letter-spacing:.15em; color:var(--text); margin-bottom:8px; }
+.f-col a, .f-col span { display:block; color:var(--dim); text-decoration:none; font-size:12.5px;
+                        padding:2px 0; transition:color .12s; }
+.f-col a:hover { color:var(--red); }
+.f-bottom { border-top:1px dashed var(--line); padding-top:12px; display:flex;
+            justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; }
 footer a { color:var(--dim); text-decoration:none; transition:color .12s; }
 footer a:hover { color:var(--red); }
+
+@media (max-width:720px) {
+  .f-grid { grid-template-columns:1fr 1fr; gap:18px; }
+  .f-brand { grid-column:1 / -1; }
+}
 
 @media (max-width:640px) {
   header nav { display:none; }
