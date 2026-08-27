@@ -19,7 +19,6 @@
   <nav>
     <a href="index.html">home</a>
     <a href="connect.html" class="active">connect</a>
-    <a href="tools.html">tools</a>
     <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
   </nav>
   <details class="menu">
@@ -27,7 +26,6 @@
     <div class="drop">
       <a href="index.html">home</a>
       <a href="connect.html">connect</a>
-      <a href="tools.html">tools</a>
       <a href="https://github.com/DevCristobalvc/dorsha-consciousness-engine" target="_blank">github</a>
     </div>
   </details>
@@ -36,7 +34,7 @@
 <main class="wrap">
   <section class="hero" style="border-top:none">
     <h1 style="font-size:clamp(28px,5.5vw,46px)">connect</h1>
-    <p>3 pasos y tu agente tiene memoria, juicio y loop.</p>
+    <p>Tres pasos y tu agente trabaja con memoria y criterio.</p>
   </section>
 
   <section id="steps">
@@ -44,14 +42,14 @@
     <div class="steps">
       <div class="step">
         <div style="flex:1">
-          <h3>Pide tu token</h3>
-          <p>Endpoint <code>dce.devcristobalvc.com</code> · token por canal privado (Telegram / email).</p>
+          <h3>Solicita tu token</h3>
+          <p>Endpoint <code>dce.devcristobalvc.com</code> · entrega por canal privado, nunca en código.</p>
         </div>
       </div>
       <div class="step">
         <div style="flex:1">
-          <h3>Registra el server</h3>
-          <p>Claude Code — <code>.mcp.json</code> en la raiz del proyecto:</p>
+          <h3>Conecta tu agente</h3>
+          <p>Claude Code — añade el server en <code>.mcp.json</code>:</p>
 <pre><span class="c">// .mcp.json</span>
 {
   <span class="k">"mcpServers"</span>: {
@@ -66,19 +64,19 @@
       </div>
       <div class="step">
         <div style="flex:1">
-          <h3>Usa la memoria como un search</h3>
-          <p>El agente llama los tools cuando los necesita — sin contexto inyectado a la fuerza.</p>
+          <h3>Pide memoria cuando la necesites</h3>
+          <p>El agente decide cuándo recordar — nada de contexto inyectado a la fuerza.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section id="local">
-    <h2>Modo local (open source)</h2>
-    <p style="color:var(--dim);margin-bottom:10px">Sin token ni subdominio — corre el motor tu mismo:</p>
-<pre><span class="p" style="color:var(--text)">$</span> pip install dorsha-consciousness-engine
-<span class="p" style="color:var(--text)">$</span> ce mcp                    <span class="c"># stdio (Claude Code / Hermes)</span>
-<span class="p" style="color:var(--text)">$</span> ce panel                   <span class="c"># panel de configuracion local</span></pre>
+    <h2>Modo local</h2>
+    <p style="color:var(--dim);margin-bottom:10px">¿Prefieres correrlo tú? Sin token ni servidor:</p>
+<pre><span class="p" style="color:var(--red)">$</span> pip install dorsha-consciousness-engine
+<span class="p" style="color:var(--red)">$</span> ce mcp                    <span class="c"># stdio para Claude Code / Hermes</span>
+<span class="p" style="color:var(--red)">$</span> ce panel                   <span class="c"># panel de configuración local</span></pre>
   </section>
 </main>
 

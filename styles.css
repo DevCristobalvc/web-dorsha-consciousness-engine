@@ -60,8 +60,6 @@ section h2::before { content:'> '; color:var(--dim); }
 .term-box .c { color:var(--dim); }
 .term-box .ok { color:var(--text); }
 .term-box .cmt { color:var(--dim); }
-.cmd-row { display:flex; flex-wrap:wrap; gap:6px 10px; margin-top:10px; }
-.cmd-row code { background:var(--bg); border:1px solid var(--line); padding:3px 10px; font-size:13px; color:var(--text); }
 
 /* diagrama */
 .diagram { border:1px solid var(--line); background:var(--bg); padding:clamp(10px,2vw,18px);
