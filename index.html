@@ -45,14 +45,14 @@
   section { padding:clamp(24px, 4.5vw, 44px) 0; border-top:1px solid var(--border); }
   section h2 { font-size:12.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.1em; margin-bottom:clamp(14px, 2.5vw, 20px); }
   .diagram { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:clamp(12px, 2vw, 20px);
-             overflow:visible; text-align:center; }
-  .diagram .zoom { display:flex; gap:6px; justify-content:flex-end; align-items:center; margin-bottom:10px; }
+             overflow:hidden; text-align:center; touch-action:none; }
+  .diagram .zoom { display:flex; gap:6px; justify-content:flex-end; align-items:center; margin-bottom:10px; touch-action:manipulation; }
   .diagram .zoom button { background:var(--bg); border:1px solid var(--border); color:var(--dim); cursor:pointer;
-                          border-radius:6px; padding:4px 10px; font:12px ui-monospace,monospace; }
+                          border-radius:6px; padding:4px 10px; font:12px ui-monospace,monospace; touch-action:manipulation; }
   .diagram .zoom button:hover { border-color:var(--accent); color:var(--accent); }
   .diagram .zoom span { font-size:11px; color:var(--dim); margin-right:auto; }
-  .diagram .mermaid { display:flex; justify-content:center; overflow:visible; }
-  .diagram .mermaid svg { max-width:100%; height:auto; transition:transform .15s ease; }
+  .diagram .mermaid { display:flex; justify-content:center; overflow:hidden; touch-action:none; }
+  .diagram .mermaid svg { max-width:100% !important; height:auto !important; transition:transform .15s ease; }
   .steps { max-width:720px; margin:0 auto; }
   .step { display:flex; gap:16px; margin-bottom:20px; }
   .step::before { counter-increment:step; content:counter(step); flex:0 0 32px; height:32px;
@@ -132,21 +132,26 @@
     </div>
     <div class="mermaid">
 flowchart LR
-  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='34'/><br/><span style='color:%237cc0ff'>User</span>"]
+  U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='32'/><br/><span style='color:%237cc0ff'>User</span>"]
   U -->|prompt| W["Worker agent<br/><span style='font-size:11px'>Claude Code · Hermes</span>"]
   W -->|"MCP tools"| S["ce_memory_search<br/>ce_memory_save · ce_judge"]
   subgraph DCE["Dorsha Consciousness Engine"]
     S --> R["Recall RAG<br/><span style='font-size:11px'>prompts + respuestas + curada</span>"]
     S --> J["Judge dual<br/><span style='font-size:11px'>heuristica + LLM as judge</span>"]
     J --> A["Advisor DeepSeek<br/><span style='font-size:11px'>sesion nueva · contexto completo</span>"]
-    R --> M[("Memoria<br/><span style='font-size:11px'>indice + ce_memory_save</span>")]
-    R -. "citas" .-> W
+    R --> M[("Memoria<br/><span style='font-size:11px'>indice + curada</span>")]
     J --> L["Loop supervisado<br/><span style='font-size:11px'>iteraciones · tokens · wake</span>"]
     L --> T[("TODO.md<br/><span style='font-size:11px'>contrato</span>")]
-    L -. "inyeccion como usuario" .-> W
   end
   A -.-> D["DeepSeek API"]
-  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%238fa3c0%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%238fa3c0%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='34'/><br/><span style='color:%238fa3c0'>Human as judge</span><br/><span style='font-size:11px'>solo limitaciones reales</span>"]
+  L --> H["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%238fa3c0%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%238fa3c0%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='32'/><br/><span style='color:%238fa3c0'>Human as judge</span><br/><span style='font-size:11px'>solo limitaciones reales</span>"]
+  H -->|"decision"| W
+  J -.->|"bucle retry<br/>attempts < max"| W
+  A -.->|"recomendacion"| W
+  R -.->|"contexto"| J
+  R -.->|"evidencia"| A
+  W -.->|"ce_memory_save"| M
+  L -.->|"bucle inyeccion<br/>como usuario"| W
     </div>
   </div>
 </section>
@@ -216,9 +221,9 @@ flowchart LR
       tertiaryColor: "#111827",
       lineColor: "#4da3ff",
       textColor: "#e6edf7",
-      fontSize: "13px"
+      fontSize: "12px"
     },
-    flowchart: { curve: "basis", padding: 10, nodeSpacing: 34, rankSpacing: 46 }
+    flowchart: { curve: "basis", padding: 8, nodeSpacing: 26, rankSpacing: 40 }
   });
 
   // zoom: aparece completo por defecto; + / − / reset para acercar
