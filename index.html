@@ -50,15 +50,11 @@
   section { padding:clamp(24px, 4.5vw, 44px) 0; border-top:1px solid var(--border); }
   section h2 { font-size:12.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.1em; margin-bottom:clamp(14px, 2.5vw, 20px); }
   .diagram { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:clamp(12px, 2vw, 20px);
-             overflow:auto; text-align:center; touch-action:pan-x pan-y; }
-  .diagram .zoom { display:flex; gap:6px; justify-content:flex-end; align-items:center; margin-bottom:10px; position:sticky; left:0; touch-action:manipulation; }
-  .diagram .zoom button { background:var(--bg); border:1px solid var(--border); color:var(--dim); cursor:pointer;
-                          border-radius:6px; padding:4px 10px; font:12px ui-monospace,monospace; touch-action:manipulation; }
-  .diagram .zoom button:hover { border-color:var(--accent); color:var(--accent); }
-  .diagram .zoom span { font-size:11px; color:var(--dim); margin-right:auto; }
-  .diagram .mermaid { display:flex; justify-content:center; min-width:min(100%,680px); touch-action:pan-x pan-y; }
-  .diagram .mermaid svg { max-width:100% !important; height:auto !important; transition:zoom .15s ease, transform .15s ease; }
-  .hint { font-size:11px; color:var(--dim); margin-top:8px; text-align:right; }
+             overflow:hidden; text-align:center; touch-action:none; cursor:grab; }
+  .diagram:active { cursor:grabbing; }
+  .diagram .mermaid { display:flex; justify-content:center; touch-action:none; }
+  .diagram .mermaid svg { max-width:100% !important; height:auto !important; transition:transform .1s ease-out; }
+  .hint { font-size:11px; color:var(--dim); margin-top:10px; text-align:center; }
   .steps { max-width:720px; margin:0 auto; }
   .step { display:flex; gap:16px; margin-bottom:20px; }
   .step::before { counter-increment:step; content:counter(step); flex:0 0 32px; height:32px;
@@ -132,12 +128,6 @@
 <section id="como" class="wrap">
   <h2>Como funciona</h2>
   <div class="diagram">
-    <div class="zoom">
-      <span>zoom</span>
-      <button id="z-out">−</button>
-      <button id="z-reset">reset</button>
-      <button id="z-in">+</button>
-    </div>
     <div class="mermaid">
 flowchart LR
   U["<img src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 46%22%3E%3Ccircle cx=%2220%22 cy=%229%22 r=%227%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22/%3E%3Cpath d=%22M20 16 L20 30 M20 20 L11 28 M20 20 L29 28 M20 30 L12 42 M20 30 L28 42%22 fill=%22none%22 stroke=%22%237cc0ff%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E' width='32'/><br/><span style='color:%237cc0ff'>User</span>"]
@@ -171,7 +161,7 @@ flowchart LR
   classDef loopNode fill:#1c2a4a,stroke:#d29922,stroke-width:2px,color:#e6edf7
   class L loopNode
     </div>
-    <div class="hint">desliza para explorar · pinch solo afecta al diagrama · usa + / − para zoom</div>
+    <div class="hint">gestos: pellizca para zoom · arrastra para mover · doble tap para reset</div>
   </div>
 </section>
 
@@ -249,20 +239,80 @@ flowchart LR
     flowchart: { curve: "basis", padding: 8, nodeSpacing: 24, rankSpacing: 38 }
   });
 
-  // zoom: completo por defecto; + / − / reset acercan (reflow real -> deslizable)
+  // gestos: todo por gestos, sin botones
+  // mobile: pellizco = zoom del diagrama · arrastrar = mover · doble tap = reset
+  // desktop: ctrl+rueda = zoom · arrastrar = mover · doble click = reset
   document.addEventListener("DOMContentLoaded", () => {
+    const box = document.querySelector("#como .diagram");
     const svg = () => document.querySelector("#como .mermaid svg");
-    let z = 1;
+    let s = 1, tx = 0, ty = 0;
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
     const apply = () => {
-      const s = svg();
-      if (!s) return;
-      s.style.zoom = z;
-      s.style.transform = "scale(" + z + ")";
-      s.style.transformOrigin = "top center";
+      const el = svg();
+      if (!el) return;
+      el.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + s + ")";
+      el.style.transformOrigin = "center center";
     };
-    document.getElementById("z-in").onclick = () => { z = Math.min(3, z + 0.25); apply(); };
-    document.getElementById("z-out").onclick = () => { z = Math.max(0.5, z - 0.25); apply(); };
-    document.getElementById("z-reset").onclick = () => { z = 1; apply(); };
+    const reset = () => { s = 1; tx = 0; ty = 0; apply(); };
+
+    // ---- touch (mobile): pinch + pan + doble tap ----
+    const touches = new Map();
+    let startDist = 0, startScale = 1, lastTap = 0;
+
+    box.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      for (const t of e.changedTouches) touches.set(t.identifier, { x: t.clientX, y: t.clientY });
+      if (touches.size === 2) {
+        const [a, b] = [...touches.values()];
+        startDist = Math.hypot(a.x - b.x, a.y - b.y);
+        startScale = s;
+      }
+      const now = Date.now();
+      if (now - lastTap < 300) { reset(); lastTap = 0; } else { lastTap = now; }
+    }, { passive: false });
+
+    box.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      if (touches.size >= 2) {
+        for (const t of e.changedTouches) touches.set(t.identifier, { x: t.clientX, y: t.clientY });
+        const [a, b] = [...touches.values()];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (startDist > 0) s = clamp(startScale * (dist / startDist), 0.5, 3);
+        apply();
+      } else if (touches.size === 1) {
+        for (const t of e.changedTouches) {
+          const prev = touches.get(t.identifier);
+          if (prev) {
+            if (s > 1) { tx += t.clientX - prev.x; ty += t.clientY - prev.y; }
+            touches.set(t.identifier, { x: t.clientX, y: t.clientY });
+          }
+        }
+        if (s > 1) apply();
+      }
+    }, { passive: false });
+
+    const endTouch = (e) => { for (const t of e.changedTouches) touches.delete(t.identifier); };
+    box.addEventListener("touchend", endTouch);
+    box.addEventListener("touchcancel", endTouch);
+
+    // ---- mouse (desktop): drag = pan · ctrl+rueda = zoom · doble click = reset ----
+    let dragging = false, mx = 0, my = 0;
+    box.addEventListener("mousedown", (e) => { dragging = true; mx = e.clientX; my = e.clientY; e.preventDefault(); });
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      if (s > 1) { tx += e.clientX - mx; ty += e.clientY - my; }
+      mx = e.clientX; my = e.clientY;
+      if (s > 1) apply();
+    });
+    window.addEventListener("mouseup", () => { dragging = false; });
+    box.addEventListener("dblclick", reset);
+    box.addEventListener("wheel", (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        s = clamp(s * (e.deltaY < 0 ? 1.1 : 0.9), 0.5, 3);
+        apply();
+      }
+    }, { passive: false });
   });
 </script>
 </body>
